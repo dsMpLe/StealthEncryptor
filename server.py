@@ -21,10 +21,10 @@ while True:
         print("connected with {}".format(addr))
         filepath = client.recv(1600).decode()
         
+        print(filepath)
+        
         filename = str(filepath).split("/")
-        
-        
-        
+        print("Recieved filename is {}".format(filename[-1]))
         f = open(filename[-1], "w")
         
         data = client.recv(1024).decode()
