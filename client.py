@@ -14,11 +14,11 @@ if filepath == None:
     exit(1)
 
 sock.sendall(filepath.encode())
-sleep(1)
+sleep(3)
 file = open(filepath, "r")
 data = file.read(1024)
 while data:
     sock.send(data.encode())
     data = file.read(1024)
     
-print("sendfile.txt ist leer")
+print("{} ist leer".format(filepath))

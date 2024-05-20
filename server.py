@@ -19,9 +19,13 @@ while True:
         #client = socket information & addr is only the ip address
         client, addr = sock.accept()
         print("connected with {}".format(addr))
-        filename = client.recv(1600).decode()
+        filepath = client.recv(1600).decode()
         
-        f = open(filename, "w")
+        filename = str(filepath).split("/")
+        
+        
+        
+        f = open(filename[-1], "w")
         
         data = client.recv(1024).decode()
         while data:
