@@ -26,13 +26,12 @@ while True:
         filename = str(filepath).split("/")
         print("Recieved filename is {}".format(filename[-1]))
         f = open(filename[-1], "w")
-        
-        data = client.recv(1024).decode()
-        while data:
-            
-            f.writelines(str(data))
+        while True:
             data = client.recv(1024).decode()
-            
+            if not data:
+                break
+            f.write(data)
+                
         f.close()    
         print("Fertig gelesen")
 
