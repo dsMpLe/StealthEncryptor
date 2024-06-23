@@ -1,0 +1,26 @@
+Sub DownloadFileFromGitHub()
+    Dim xhr As Object
+    Dim url As String
+    Dim filePath As String
+    
+    url = "https://raw.githubusercontent.com/user/repository/master/path/to/file.zip"
+    filePath = "C:\Path\To\Download\Folder\file.zip"
+    
+    Set xhr = CreateObject("MSXML2.XMLHTTP")
+    xhr.Open "GET", url, False
+    xhr.send
+    
+    If xhr.Status = 200 Then
+        Dim stream As Object
+        Set stream = CreateObject("ADODB.Stream")
+        stream.Open
+        stream.Type = 1 'adBinary
+        stream.Write xhr.responseBody
+        stream.Position = 0 'reset stream position
+        stream.SaveToFile filePath, 2 'verwrite file if it exists
+        stream.Close
+    Else
+        MsgBox "Error downloading file: " & xhr.Status & " - " & xhr.statusText
+        Debug.Print "Error details: " & xhr.getAllResponseHeaders
+    End If
+End Sub
