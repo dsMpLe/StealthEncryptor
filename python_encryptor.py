@@ -21,23 +21,30 @@ print("-" * 50)
 
 
 
+def key_generate():
+
+    #generates encryption/decryption key
+    key = Fernet.generate_key()
+    
+    
+    key_string = str(key)
+    key_array = key_string.split("'")
+    key_string = key_array[1]
+
+    output_file = open("key.txt", "w")
+    output_file.write(key_string)
+
+    return key
+
 
 
 
 
 #methods
 #encryption
-def encrypt(data, file):
-    #generates encryption/decryption key
-    key = Fernet.generate_key()
-    f = Fernet(key)
-
-    key = str(key)
-    key_array = key.split("'")
-    key = key_array[1]
+def encrypt(data, file, key):
     
-    output_file = open("key.txt", "w")
-    output_file.write(key)
+    f = Fernet(key)
 
     token = f.encrypt(str.encode(data))
 
@@ -54,8 +61,9 @@ def encrypt(data, file):
 
 
 #decryption
-def decrypt(encrypted_token, key):
+def decrypt(encrypted_token, file, key):
     f = Fernet(key)
+
     data = f.decrypt(encrypted_token)
 
     data = str(data)
@@ -66,6 +74,16 @@ def decrypt(encrypted_token, key):
     print("Your file contains following content:")
     print("*" * 50)
     print(data)
+
+    write_to_file = input("[+] Do you want to write the data back in the file again? [yes/no]\n")
+
+    if write_to_file == "yes":
+        
+        f_file = open(file, "w")
+
+        #write the file
+        f_file.write(data)
+        f_file.close
 
 
 
@@ -82,6 +100,12 @@ if len(sys.argv) == 2:
     data = file_data.read()
     file_data.close()
 
+    key_file = input("Please provide the path to your key file!\n")
+
+    key_file = open(key_file, "r")
+
+    key = key_file.read()
+    key_file.close()
 
     #user can decide weather he wants to encrypt or decrypt
     action = input("E: encrypt\nD: decrypt\n")
@@ -93,16 +117,9 @@ If the file does not exist, it is going to be\
 created!\n")
         
         print("{} is going to be encrypted!".format(input_file))
-        encrypt(data, output_file)
+        encrypt(data, output_file, key)
         print("{} has been encrypted! Your key is in a seperate file!\n".format(input_file))
         
     elif action.lower() == "d":
 
-        key_file = input("Please provide the path to your key file!\n")
-
-        key_file = open(key_file, "r")
-
-        key = key_file.read()
-        key_file.close()
-
-        decrypt(data, key)
+        decrypt(data, input_file, key)
