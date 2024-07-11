@@ -1,11 +1,14 @@
 import socket
 import os
 import python_encryptor
+import sys
 from time import sleep
+
 CHUNKSIZE = 1_000_000
 
 while True:
     
+    host_ip = sys.argv[1]
     
     path = input("Please type in the full path to your folder you want to send\nSyntax: C:/folder/.../file\n")
     
@@ -23,7 +26,7 @@ while True:
     
     for file in txt_files:
         sock = socket.socket()
-        sock.connect(('localhost', 33333))
+        sock.connect((host_ip, 33333))
         file_path = path + "/" + file
         sock.sendall(file.encode())
         sleep(3)
