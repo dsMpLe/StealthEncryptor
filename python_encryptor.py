@@ -88,7 +88,7 @@ def decrypt(encrypted_token, file, key):
 
 
 #checks if required input is given
-if len(sys.argv) == 2:
+if len(sys.argv) >= 2:
    
     #write the filename in 'file'
     input_file = sys.argv[1]

