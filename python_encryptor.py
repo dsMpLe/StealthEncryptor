@@ -46,14 +46,10 @@ def encrypt(data, file, key):
     
     f = Fernet(key)
 
-    token = f.encrypt(str.encode(data))
+    token = f.encrypt(data)
 
     #open/create the file
-    f_file = open(file, "w")
-
-    token = str(token)
-    token_array = token.split("'")
-    token = token_array[1]
+    f_file = open(file, "wb")
 
     #write the file
     f_file.write(token)
@@ -65,21 +61,17 @@ def decrypt(encrypted_token, file, key):
     f = Fernet(key)
 
     data = f.decrypt(encrypted_token)
-
-    data = str(data)
-    data_array = data.split("'")
-    data = data_array[1]
     
     print("*" * 50)
     print("Your file contains following content:")
     print("*" * 50)
-    print(data)
+    print(str(data))
 
     write_to_file = input("[+] Do you want to write the data back in the file again? [yes/no]\n")
 
     if write_to_file == "yes":
         
-        f_file = open(file, "w")
+        f_file = open(file, "wb")
 
         #write the file
         f_file.write(data)
@@ -94,7 +86,7 @@ if len(sys.argv) >= 2:
     input_file = sys.argv[1]
 
     #open file
-    file_data = open(input_file, "r")
+    file_data = open(input_file, "rb")
 
     #write context of the file in 'data'
     data = file_data.read()
@@ -102,10 +94,14 @@ if len(sys.argv) >= 2:
 
     key_file = input("Please provide the path to your key file!\n")
 
-    key_file = open(key_file, "r")
+    if key_file == "":
+        key = key_generate()
+    
+    else:
+        key_file = open(key_file, "r")
 
-    key = key_file.read()
-    key_file.close()
+        key = key_file.read()
+        key_file.close()
 
     #user can decide weather he wants to encrypt or decrypt
     action = input("E: encrypt\nD: decrypt\n")

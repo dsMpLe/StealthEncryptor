@@ -25,9 +25,9 @@ while True:
         
         filename = str(filepath).split("/")
         print("[i] Recieved filename is {}".format(filename[-1]))
-        f = open(filename[-1], "w")
+        f = open(filename[-1], "wb")
         while True:
-            data = client.recv(1024).decode()
+            data = client.recv(1024)
             if not data:
                 break
             f.write(data)
