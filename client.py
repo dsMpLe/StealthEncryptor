@@ -27,7 +27,7 @@ while True:
         sock.connect((host_ip, 33333))
         file_path = path + "/" + file
         sock.sendall(file.encode())
-        sleep(3)
+        sleep(1)
         
         file = open(file_path, "rb")
         data = file.read(1024)
@@ -36,7 +36,6 @@ while True:
             data = file.read(1024)
             
         print("[i] {} ist leer".format(file))
-        sleep(3)
         sock.close()
         
         file_data = open(file_path, "rb")
