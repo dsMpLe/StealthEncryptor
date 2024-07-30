@@ -20,32 +20,25 @@ print("-" * 50)
 
 
 
-
+#generates 256-bit key
 def key_generate():
 
-    #generates encryption/decryption key
+    
     key = Fernet.generate_key()
-    
-    
-    key_string = str(key)
-    key_array = key_string.split("'")
-    key_string = key_array[1]
 
-    output_file = open("key.txt", "w")
-    output_file.write(key_string)
+    output_file = open("key.txt", "wb")
+    output_file.write(key)
+    output_file.close()
 
     return key
 
 
-
-
-
-#methods
-#encryption
+#encryption of data in file
 def encrypt(data, file, key):
-    
+    #initialize key
     f = Fernet(key)
 
+    #encrypt data
     token = f.encrypt(data)
 
     #open/create the file
@@ -98,7 +91,7 @@ if len(sys.argv) >= 2:
         key = key_generate()
     
     else:
-        key_file = open(key_file, "r")
+        key_file = open(key_file, "rb")
 
         key = key_file.read()
         key_file.close()
