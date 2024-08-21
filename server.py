@@ -1,9 +1,7 @@
 import socket
 import os
 
-socket.setdefaulttimeout(10) 
-
-#CHUNKSIZE = 1_000_000
+socket.setdefaulttimeout(10)
 
 #socket object initiated
 sock = socket.socket()
