@@ -19,19 +19,22 @@ while True:
         print("[+] connected with {}".format(addr))
         filepath = client.recv(1600).decode()
         
-        print(filepath)
-        
-        filename = str(filepath).split("/")
-        print("[i] Recieved filename is {}".format(filename[-1]))
-        f = open(filename[-1], "wb")
-        while True:
-            data = client.recv(1024)
-            if not data:
-                break
-            f.write(data)
-                
-        f.close()    
-        print("[i] Fertig gelesen")
+        print("Recieved: {}".format(filepath))
+
+        relfile = os.path.relpath(filepath)
+
+        dir_path = os.path.dirname(relfile)
+
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
+
+        with open(relfile, "wb") as wfile:
+            while True:
+                data = client.recv(1024)
+                if not data:
+                    break
+                wfile.write(data)
+
 
     except socket.timeout:
         print("[i] Waiting for connection ...")
