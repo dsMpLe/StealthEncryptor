@@ -16,6 +16,6 @@ def discover_files(path):
 
 if __name__ == "__main__":
     
-    path = input("Geb PFad ein du dulli: \n")
+    path = input("Type in the path \n")
 
     discover_files(path)
