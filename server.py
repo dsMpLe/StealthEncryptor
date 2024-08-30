@@ -1,5 +1,5 @@
 import socket
-import os
+import pathlib
 
 socket.setdefaulttimeout(10)
 
@@ -21,12 +21,11 @@ while True:
         
         print("Recieved: {}".format(filepath))
 
-        relfile = os.path.relpath(filepath)
+        relfile = pathlib.relpath(filepath)
 
-        dir_path = os.path.dirname(relfile)
+        dir_path = relfile.parent
 
-        if not os.path.exists(dir_path):
-            os.makedirs(dir_path)
+        dir_path.mkdir(parents=True, exist_ok=True)
 
         with open(relfile, "wb") as wfile:
             while True:
