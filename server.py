@@ -27,14 +27,14 @@ while True:
         # Create relative path
         relfile = pathlib.Path(".").joinpath(filepath)
 
-        relfile.mkdir(parents=True, exist_ok=True)
+        relfile.parents[0].mkdir(parents=True, exist_ok=True)
 
-        """with open(relfile, "wb") as wfile:
+        with open(filepath, "wb") as wfile:
             while True:
                 data = client.recv(1024)
                 if not data:
                     break
-                wfile.write(data)"""
+                wfile.write(data)
 
 
     except socket.timeout:
